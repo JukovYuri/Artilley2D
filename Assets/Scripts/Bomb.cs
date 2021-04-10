@@ -66,6 +66,31 @@ public class Bomb : MonoBehaviour
 
     }
 
+    public void Shot()
+    {
+        float AngleInDegrees = 45f;
+        const float g = 9.8f;
+
+        Vector3 direction = PlayerMovement.instance.transform.position - transform.position;
+        direction.z = 0;
+        //Vector3 fromToXZ = new Vector3(fromTo.x, 0f, fromTo.z);
+
+        //transform.rotation = Quaternion.LookRotation(fromToXZ, Vector3.up);
+
+
+        float x = direction.magnitude;
+        float y = direction.y;
+
+        float AngleInRadians = AngleInDegrees * Mathf.PI / 180;
+
+        float v2 = (g * x * x) / (2 * (y - Mathf.Tan(AngleInRadians) * x) * Mathf.Pow(Mathf.Cos(AngleInRadians), 2));
+        float v = Mathf.Sqrt(Mathf.Abs(v2));
+
+       // GetComponent<Rigidbody>().velocity = SpawnTransform.forward * v;
+
+
+    }
+
 
 }
 

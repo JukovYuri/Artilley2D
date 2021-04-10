@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public bool imMain;
+    bool imMain = false;
     public GameObject bomb;
     public Transform bombPosition;
     GameObject emptyBomb;
@@ -25,27 +25,39 @@ public class EnemyMovement : MonoBehaviour
 
     private void Start()
     {
-        GameManager.instance.AddEnemy(this);
+        //GameManager.instance.AddEnemy(this);
     }
     void Update()
     {
-        if (imMain)
+
+        // тут способность принимать урон
+        // тут анимация
+
+        if (!imMain)
         {
-            if (timerMove >= 0)
-            {
-                timerMove -= Time.deltaTime;
-                Move();
-            }
-            else
-            {
-                DoDashDamage();
-                timerMove = 3;
-            }
+            return;
         }
-        else
-        {
-            animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
-        }
+
+       print(gameObject.name + " готов к бою!");
+
+
+        //if (imMain)
+        //{
+        //    if (timerMove >= 0)
+        //    {
+        //        timerMove -= Time.deltaTime;
+        //        Move();
+        //    }
+        //    else
+        //    {
+        //        DoDashDamage();
+        //        timerMove = 3;
+        //    }
+        //}
+        //else
+        //{
+        //    animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
+        //}
     }
     void Move()
     {
@@ -72,7 +84,7 @@ public class EnemyMovement : MonoBehaviour
     public void DoDashDamage()
     {
         emptyBomb = Instantiate(bomb, bombPosition.position, Quaternion.identity);
-        emptyBomb.GetComponent<Bomb>().StartFly(transform.up * 10);
+        emptyBomb.GetComponent<Bomb>().Shot();
         animator.SetTrigger("AttackBomb");
     }
     public void Pacific()
@@ -87,5 +99,10 @@ public class EnemyMovement : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetImMain(bool enable)
+    {
+        imMain = enable;
     }
 }

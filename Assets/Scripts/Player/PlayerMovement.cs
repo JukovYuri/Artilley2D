@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
-    public bool imMain;
+    bool imMain = false;
 
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Animator animator;
@@ -42,6 +42,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // тут способность принимать урон
+        // тут анимация
+
+        if (!imMain)
+        {
+            return;
+        }
+
+       print(gameObject.name + " готов к бою!");
+
         isGround = Physics2D.Raycast(transform.position, -transform.up, 0.5f, layerMask);
 
         if (Input.touchCount == 0)
@@ -158,5 +168,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, -transform.up);
+    }
+
+    public void SetImMain(bool enable)
+    {
+        imMain = enable;
     }
 }
