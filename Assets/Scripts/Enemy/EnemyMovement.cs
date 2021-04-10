@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public bool imMain;
-    public GameObject player;
     public GameObject bomb;
     public Transform bombPosition;
     GameObject emptyBomb;
@@ -21,7 +20,6 @@ public class EnemyMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        player = PlayerMovement.instance.gameObject;
     }
 
     void Update()
@@ -46,7 +44,7 @@ public class EnemyMovement : MonoBehaviour
     }
     void Move()
     {
-        float distToPlayer = player.transform.position.x - transform.position.x;
+        float distToPlayer = PlayerMovement.instance.transform.position.x - transform.position.x;
         rb.velocity = new Vector2(distToPlayer / Mathf.Abs(distToPlayer) * speed, rb.velocity.y);
         animator.SetFloat("Speed", Mathf.Abs(rb.velocity.x));
 
