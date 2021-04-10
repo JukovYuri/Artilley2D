@@ -6,11 +6,13 @@ using UnityEngine.EventSystems;
 public class PlayerMovement : MonoBehaviour
 {
     public static PlayerMovement instance;
+    public bool imMain;
 
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Animator animator;
     [SerializeField] float speed = 5;
-
+    PlayerHealth playerHealth;
+    float inputX;
 
 
 
@@ -23,8 +25,6 @@ public class PlayerMovement : MonoBehaviour
     public bool isAttacking;
 
 
-    float inputX;
-    float touchCount = 0;
 
     StatePlayer statePlayer;
     enum StatePlayer
@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         if (instance == null) instance = this;
+        playerHealth = GetComponent<PlayerHealth>();
         statePlayer = StatePlayer.Move;
     }
 
@@ -55,7 +56,8 @@ public class PlayerMovement : MonoBehaviour
             case StatePlayer.Move:
                 if (isAttacking)
                     statePlayer = StatePlayer.Attack;
-                Move();
+                if (imMain)
+                    Move();
                 break;
             case StatePlayer.Attack:
                 if (!isAttacking)
@@ -74,14 +76,11 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         if (EventSystem.current.IsPointerOverGameObject())
-        {
             return;
-        }
 
 
         if (Input.touchCount > 0)
         {
-           
             Touch touch = Input.GetTouch(0);
 
             if (touch.phase == TouchPhase.Began)
@@ -107,7 +106,8 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (touch.tapCount == 1)
+
+            if (touch.phase == TouchPhase.Moved)
             {
                 float middleScreen = Screen.width / 3;
                 if (touch.position.x > middleScreen * 2)
@@ -120,6 +120,8 @@ public class PlayerMovement : MonoBehaviour
                 }
                 rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
             }
+
+
         }
 
     }

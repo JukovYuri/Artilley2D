@@ -63,22 +63,33 @@ public class WeaponManager : MonoBehaviour, IPointerDownHandler
     }
     public void GetGun()
     {
+        WeaponsOff();
         playerMovement.isAttacking = true;
         isGun = true;
         gun.SetActive(true);
+        hammer.SetActive(false);
+        Destroy(emptyBomb);
     }
     public void GetBomb()
     {
+        WeaponsOff();
         isBomb = true;
+
+        if (emptyBomb)
+            Destroy(emptyBomb);
+
         emptyBomb = Instantiate(bomb, bombPosition.position, Quaternion.identity);
         playerMovement.isAttacking = true;
 
     }
     public void GetHammer()
     {
+        WeaponsOff();
         playerMovement.isAttacking = true;
         isHammer = true;
+        gun.SetActive(false);
         hammer.SetActive(true);
+        Destroy(emptyBomb);
     }
 
     public void Attack()
@@ -91,6 +102,7 @@ public class WeaponManager : MonoBehaviour, IPointerDownHandler
             {
                 if (isHammer)
                 {
+
                 }
                 if (isGun)
                 {
@@ -155,6 +167,9 @@ public class WeaponManager : MonoBehaviour, IPointerDownHandler
         aim.SetActive(false);
         gun.SetActive(false);
         hammer.SetActive(false);
+        isGun = false;
+        isBomb = false;
+        isHammer = false;
     }
 
 
