@@ -148,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
     public void Pacific()
     {
         isAttacking = false;
+        imMain = false;
     }
 
 

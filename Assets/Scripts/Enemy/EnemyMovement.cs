@@ -16,12 +16,17 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] float timerMove = 5;
     float health = 5;
     bool facingRight;
-    void Start()
+    void Awake()
     {
+
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        GameManager.instance.AddEnemy(this);
+    }
     void Update()
     {
         if (imMain)
